@@ -1,20 +1,53 @@
-﻿using System;
+﻿using Dapper;
 using System.Collections.Generic;
-using System.Text;
-using ThomasGreg.Domain.Interfaces.Repositories;
+using System.Data;
+using System.Threading.Tasks;
+using ThomasGreg.Domain;
 
-namespace ThomasGreg.Infrastructure.Repositories.Implementations
+
+namespace ThomasGreg.Infrastructure.Repositories
 {
     public class LogradouroRepository : ILogradouroRepository
     {
-        public void AdicionarLogradouro(int clienteId, string nome, string numero, string cep)
+        private readonly IDbConnection _dbConnection;
+
+        public LogradouroRepository(IDbConnection dbConnection)
         {
-            throw new NotImplementedException();
+            _dbConnection = dbConnection;
         }
 
-        public string GetLogradouro(string cep, string numero)
+        // Inserir Logradouro
+        public async Task InserirLogradouroAsync(Logradouro logradouro)
         {
-            throw new NotImplementedException();
+            var sql = "sp_InserirLogradouro";
+            var parameters = new { logradouro.Nome, logradouro.Numero, logradouro.Cep };
+            await _dbConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        // Atualizar Logradouro
+        public async Task AtualizarLogradouroAsync(Logradouro logradouro)
+        {
+            var sql = "sp_AtualizarLogradouro";
+            var parameters = new { logradouro.Id, logradouro.Nome, logradouro.Numero, logradouro.Cep };
+            await _dbConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        // Remover Logradouro
+        public async Task RemoverLogradouroAsync(int logradouroId)
+        {
+            var sql = "sp_RemoverLogradouro";
+            var parameters = new { Id = logradouroId };
+            await _dbConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<IEnumerable<Logradouro>> ListarLogradourosAsync()
+        {
+            var sql = "sp_ListarLogradouros";
+            var logradouros = await _dbConnection.QueryAsync<Logradouro>(
+                sql,
+                commandType: CommandType.StoredProcedure);
+
+            return logradouros;
         }
     }
 }

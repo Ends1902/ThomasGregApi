@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
+using ThomasGreg.Domain;
 
-namespace ThomasGreg.Domain.Interfaces.Repositories
+namespace ThomasGreg.Infrastructure.Repositories
 {
     public interface IClienteRepository
     {
-        public void Adicionar(Cliente cliente);
-        public void Atualizar(Cliente cliente);
-        public void Remover(int id);
-        public Cliente ObterPorEmail(int id);
+        Task InserirClienteComLogradourosAsync(Cliente cliente);
+        Task AtualizarClienteAsync(Cliente cliente);
+        Task RemoverClienteAsync(string email);
+        Task<Cliente> ObterClienteComLogradourosAsync(string email);
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ThomasGreg.Domain;
 
-namespace ThomasGreg.Domain.Interfaces.Repositories
+namespace ThomasGreg.Infrastructure.Repositories
 {
     public interface ILogradouroRepository
     {
-        string GetLogradouro(string cep, string numero);
-        void AdicionarLogradouro(int clienteId, string nome, string numero, string cep);
-
+        Task<IEnumerable<Logradouro>> ListarLogradourosAsync();
+        Task InserirLogradouroAsync(Logradouro logradouro);
+        Task AtualizarLogradouroAsync(Logradouro logradouro);
+        Task RemoverLogradouroAsync(int logradouroId);
     }
 }

@@ -5,8 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using ThomasGreg.API.Middlewares;
 using ThomasGreg.API.ScriptsIniciais.Servicos;
+using ThomasGreg.Application.Services;
+using ThomasGreg.Infrastructure.Repositories;
+using ThomasGreg.Infrastructure.Repositories.Implementations;
 
 
 namespace ThomasGreg.API
@@ -35,6 +40,18 @@ namespace ThomasGreg.API
                     Version = "v1"
                 });
             });
+
+            // Registra IDbConnection para usar SqlConnection com sua connection string
+            services.AddTransient<IDbConnection>(sp =>
+                new SqlConnection(
+                    sp.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection")
+                )
+            );
+
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<ILogradouroRepository, LogradouroRepository>();
+            services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<ILogradouroService, LogradouroService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

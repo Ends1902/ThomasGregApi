@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ThomasGreg.Domain;
 
-namespace ThomasGreg.Application.Services.Interfaces
+namespace ThomasGreg.Application.Services
 {
     public interface ILogradouroService
     {
-        string GetLogradouro(string cep, string numero);
-        void AdicionarLogradouro(int clienteId, string nome, string numero, string cep);
-        void AtualizarLogradouro(int id, string nome, string numero, string cep);
-        void RemoverLogradouro(int id);
+        Task CriarLogradouroAsync(Logradouro logradouro);
+        Task AtualizarLogradouroAsync(Logradouro logradouro);
+        Task RemoverLogradouroAsync(int id);
+        Task<IEnumerable<Logradouro>> ListarLogradourosAsync();
     }
 }
