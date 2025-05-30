@@ -34,7 +34,7 @@ autorização.
 
 - Criei um script inicial de banco para preencher as tabelas com um usuário padrão
 
-- Utilizei o **Dapper** tanto para as tabelas de Autenticação quanto para as tabelas de persistência
+- Utilizei o **Dapper** tanto para as tabelas de autenticação quanto para as tabelas de persistência
 
 - Utilizei Middleware global de tratamento de exceção
 
@@ -52,4 +52,11 @@ A api deverá estar de pé na porta 5000
 
 ![image](https://github.com/user-attachments/assets/410fdedc-4e37-46bf-9d2d-1f67f595c635)
 
+O usuário default da aplicação para login é:
 
+**email: admin@thomasgreg.com**
+**senha: 123456**
+
+**Dúvidas e suporte no email: ends1008@gmail.com**
+
+Obrigado :)
