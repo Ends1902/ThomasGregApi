@@ -1,0 +1,23 @@
+﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ThomasGregDB')
+BEGIN
+    CREATE DATABASE ThomasGregDB;
+END
+
+USE ThomasGregDB;
+
+
+CREATE TABLE Cliente
+(
+    Email varchar(50) PRIMARY KEY NOT NULL,
+    Nome varchar(50),
+    Logotipo varchar(50)
+);
+
+
+CREATE TABLE Logradouro 
+(
+	LogradouroId integer IDENTITY(1,1) PRIMARY KEY,
+	LogradouroNome varchar(50),
+	Email varchar(50),
+	CONSTRAINT fk_CliLogradouro FOREIGN KEY (Email) REFERENCES Cliente (Email)
+);
