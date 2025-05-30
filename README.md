@@ -50,7 +50,9 @@ autorização.
 
 A api deverá estar de pé na porta 5000
 
-![image](https://github.com/user-attachments/assets/410fdedc-4e37-46bf-9d2d-1f67f595c635)
+![image](https://github.com/user-attachments/assets/06c8028d-5bd0-476a-90a9-64a9a432cf58)
+
+
 
 O usuário default da aplicação para login é:
 
