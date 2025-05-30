@@ -1,17 +1,18 @@
-using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
+using ThomasGreg.API.Extensions;
 using ThomasGreg.API.Middlewares;
-using ThomasGreg.API.ScriptsIniciais.Servicos;
-using ThomasGreg.Application.Services;
-using ThomasGreg.Infrastructure.Repositories;
-using ThomasGreg.Infrastructure.Repositories.Implementations;
+
 
 
 namespace ThomasGreg.API
@@ -25,36 +26,19 @@ namespace ThomasGreg.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
+            //Startup organizado com métodos de extensão para cada grupo de serviços
+            services.RegistraConexaoDoDapper();
+            services.AdicionaSwagger();
+            services.AdicionaAutenticacao(Configuration);
+            services.AddAuthorization();
+            services.AdicionaValidacoes();
+            services.AdicionaServicos();
 
-            services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "Thomas Greg API",
-                    Version = "v1"
-                });
-            });
-
-            // Registra IDbConnection para usar SqlConnection com sua connection string
-            services.AddTransient<IDbConnection>(sp =>
-                new SqlConnection(
-                    sp.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection")
-                )
-            );
-
-            services.AddScoped<IClienteRepository, ClienteRepository>();
-            services.AddScoped<ILogradouroRepository, LogradouroRepository>();
-            services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<ILogradouroService, LogradouroService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -80,6 +64,8 @@ namespace ThomasGreg.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -87,7 +73,7 @@ namespace ThomasGreg.API
                 endpoints.MapControllers();
             });
 
-           
+
         }
 
     }

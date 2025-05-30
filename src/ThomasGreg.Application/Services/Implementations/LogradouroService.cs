@@ -14,9 +14,9 @@ namespace ThomasGreg.Application.Services
             _logradouroRepository = logradouroRepository;
         }
 
-        public async Task CriarLogradouroAsync(Logradouro logradouro)
+        public async Task CriarLogradouroAsync(string emailCliente, Logradouro logradouro)
         {
-            await _logradouroRepository.InserirLogradouroAsync(logradouro);
+            await _logradouroRepository.InserirLogradouroAsync(emailCliente, logradouro);
         }
 
         public async Task AtualizarLogradouroAsync(Logradouro logradouro)

@@ -11,9 +11,9 @@ namespace ThomasGreg.Application
         public string Numero { get; set; }
         public string Cep { get; set; }
 
-        public Logradouro MapearLogradouroDtoParaEntidade(int id, LogradouroDto logradouroDto)
+        public Logradouro MapearLogradouroDtoParaEntidade(int id, string emailCliente, LogradouroDto logradouroDto)
         {
-            return id > 0 ? new Logradouro(id, logradouroDto.Nome, logradouroDto.Numero, logradouroDto.Cep) : new Logradouro(logradouroDto.Nome, logradouroDto.Numero, logradouroDto.Cep);
+            return id > 0 ? new Logradouro(id, logradouroDto.Nome, logradouroDto.Numero, logradouroDto.Cep, emailCliente) : new Logradouro(logradouroDto.Nome, logradouroDto.Numero, logradouroDto.Cep, emailCliente);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ThomasGreg.Application;
 using ThomasGreg.Application.Services;
@@ -7,6 +8,7 @@ using ThomasGreg.Domain;
 namespace ThomasGreg.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase
     {
@@ -20,6 +22,9 @@ namespace ThomasGreg.Api.Controllers
         [HttpPost("criarClientes")]
         public async Task<IActionResult> CriarClientes([FromBody] ClienteDto clienteDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             await _clienteService.CriarClienteAsync(clienteDto.MapearClienteDtoParaEntidade(clienteDto));
             return CreatedAtAction(nameof(ObterClientes), new { email = clienteDto.Email }, clienteDto);
         }
@@ -27,8 +32,8 @@ namespace ThomasGreg.Api.Controllers
         [HttpPut("atualizarClientes/{email}")]
         public async Task<IActionResult> AtualizarClientes(string email, [FromBody] ClienteDto clienteDto)
         {
-            if (email != clienteDto.Email)
-                return BadRequest("Email do cliente não é igual ao informado !!");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             await _clienteService.AtualizarClienteAsync(clienteDto.Nome, clienteDto.Email, clienteDto.Logotipo);
             return NoContent();

@@ -21,10 +21,10 @@ namespace ThomasGreg.Application
                 var logradouro = new Logradouro(
                     logradouroDto.Nome,
                     logradouroDto.Numero,
-                    logradouroDto.Cep
+                    logradouroDto.Cep,
+                    clienteDto.Email
                 );
 
-                logradouro.Email = clienteDto.Email; // Relacionamento
 
                 cliente.Logradouros.Add(logradouro);
             }

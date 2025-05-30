@@ -26,7 +26,7 @@ namespace ThomasGreg.API.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro não tratado"); 
+                _logger.LogError(ex, "Exceção não tratada pelo sistema"); 
                 await HandleExceptionAsync(context, ex);   
             }
         }

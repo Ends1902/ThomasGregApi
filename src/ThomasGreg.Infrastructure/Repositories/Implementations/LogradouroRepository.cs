@@ -16,15 +16,15 @@ namespace ThomasGreg.Infrastructure.Repositories
             _dbConnection = dbConnection;
         }
 
-        // Inserir Logradouro
-        public async Task InserirLogradouroAsync(Logradouro logradouro)
+   
+        public async Task InserirLogradouroAsync(string emailCliente, Logradouro logradouro)
         {
             var sql = "sp_InserirLogradouro";
-            var parameters = new { logradouro.Nome, logradouro.Numero, logradouro.Cep };
+            var parameters = new { logradouro.Nome, logradouro.Numero, logradouro.Cep, Email = emailCliente };
             await _dbConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
         }
 
-        // Atualizar Logradouro
+
         public async Task AtualizarLogradouroAsync(Logradouro logradouro)
         {
             var sql = "sp_AtualizarLogradouro";
@@ -32,7 +32,7 @@ namespace ThomasGreg.Infrastructure.Repositories
             await _dbConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
         }
 
-        // Remover Logradouro
+
         public async Task RemoverLogradouroAsync(int logradouroId)
         {
             var sql = "sp_RemoverLogradouro";

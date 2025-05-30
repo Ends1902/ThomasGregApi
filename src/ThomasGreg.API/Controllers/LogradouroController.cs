@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ThomasGreg.Application;
 using ThomasGreg.Application.Services;
@@ -6,6 +7,7 @@ using ThomasGreg.Application.Services;
 namespace ThomasGreg.Api.Controllers
 {
     [ApiController]
+    [Authorize] 
     [Route("api/[controller]")]
     public class LogradouroController : ControllerBase
     {
@@ -17,16 +19,22 @@ namespace ThomasGreg.Api.Controllers
         }
 
         [HttpPost("criarLogradouros")]
-        public async Task<IActionResult> CriarLogradouros([FromBody] LogradouroDto logradouroDto)
+        public async Task<IActionResult> CriarLogradouros(string emailCliente, [FromBody] LogradouroDto logradouroDto)
         {
-            await _logradouroService.CriarLogradouroAsync(logradouroDto.MapearLogradouroDtoParaEntidade(0, logradouroDto));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _logradouroService.CriarLogradouroAsync(emailCliente, logradouroDto.MapearLogradouroDtoParaEntidade(0, emailCliente, logradouroDto));
             return Created("", logradouroDto);
         }
 
         [HttpPut("atualizarLogradouros/{id}")]
-        public async Task<IActionResult> AtualizarLogradouros(int id, [FromBody] LogradouroDto dto)
+        public async Task<IActionResult> AtualizarLogradouros(int id, string emailCliente, [FromBody] LogradouroDto dto)
         {
-            await _logradouroService.AtualizarLogradouroAsync(dto.MapearLogradouroDtoParaEntidade(id, dto));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _logradouroService.AtualizarLogradouroAsync(dto.MapearLogradouroDtoParaEntidade(id, emailCliente, dto));
             return NoContent();
         }
 

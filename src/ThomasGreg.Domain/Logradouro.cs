@@ -10,21 +10,21 @@ namespace ThomasGreg.Domain
         {
 
         }
-        public Logradouro(int id, string nome, string numero, string cep)
+        public Logradouro(int id, string nome, string numero, string cep, string email)
         {
             Id = id;
             Nome = nome ?? throw new ArgumentNullException(nameof(nome));
             Numero = numero ?? throw new ArgumentNullException(nameof(numero));
             Cep = cep ?? throw new ArgumentNullException(nameof(cep));
-            Email = string.Empty;
+            Email = email ?? throw new ArgumentNullException(nameof(email));
         }
 
-        public Logradouro(string nome, string numero, string cep)
+        public Logradouro(string nome, string numero, string cep, string email)
         {
             Nome = nome ?? throw new ArgumentNullException(nameof(nome));
             Numero = numero ?? throw new ArgumentNullException(nameof(numero));
             Cep = cep ?? throw new ArgumentNullException(nameof(cep));
-            Email = string.Empty;
+            Email = email ?? throw new ArgumentNullException(nameof(email));
         }
         public int Id { get; set; }
         public string Nome { get; private set; }

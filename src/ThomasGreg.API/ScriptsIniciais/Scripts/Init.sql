@@ -1,20 +1,24 @@
-﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ThomasGregDB')
+﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ThomasGregDb')
 BEGIN
     CREATE DATABASE ThomasGregDb;
 END
 GO
 
-USE ThomasGregDB;
-GO;
+USE ThomasGregDb;
+GO
 
 -- ============================================
 -- CRIAÇÃO DAS TABELAS
 -- ============================================
-
-IF OBJECT_ID('Logradouro', 'U') IS NOT NULL DROP TABLE Logradouro;
+CREATE TABLE Usuario (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Email NVARCHAR(255) NOT NULL UNIQUE,
+    Senha NVARCHAR(255) NOT NULL
+);
 GO
 
-IF OBJECT_ID('Cliente', 'U') IS NOT NULL DROP TABLE Cliente;
+INSERT INTO Usuario (Email, Senha)
+VALUES ('admin@thomasgreg.com', '123456');
 GO
 
 CREATE TABLE Cliente
@@ -34,6 +38,12 @@ CREATE TABLE Logradouro
     Email VARCHAR(50) NOT NULL,
     CONSTRAINT fk_CliLogradouro FOREIGN KEY (Email) REFERENCES Cliente (Email)
 );
+GO
+
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';
+GO
+
+SELECT * FROM Usuario;
 GO
 
 -- ============================================

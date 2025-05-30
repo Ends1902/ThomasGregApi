@@ -31,7 +31,7 @@ services:
       sqlserver:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ThomasGregDB;User Id=sa;Password=SenhaForte12345;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ThomasGregDb;User Id=sa;Password=SenhaForte12345;
     networks:
           - app-network
 
